@@ -51,7 +51,6 @@ class CardProduct extends Component {
           <h4>{name}</h4>
           {prices
             .filter((price) => {
-              console.log(price);
               return price.currency.symbol === this.props.currency.symbol;
             })
             .map((price) => (
