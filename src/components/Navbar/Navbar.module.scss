@@ -1,0 +1,73 @@
+@import "../../styles/variables.scss";
+
+nav {
+  display: flex;
+  width: 90vw;
+  position: sticky;
+  top: 0;
+  left: 0;
+  margin: 0 auto;
+  height: 80px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: inherit;
+  z-index: 10;
+  align-self: center;
+  & > * {
+    display: flex;
+    gap: 1rem;
+  }
+  & > img {
+    position: absolute;
+    width: 3rem;
+    left: calc(50% - 1.5rem);
+  }
+
+  .cart {
+    width: 2rem;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .category {
+    h2 {
+      font-weight: 400;
+      cursor: pointer;
+      transition: color 300ms ease;
+      height: 100%;
+    }
+    display: grid;
+    place-content: center;
+    height: 80px;
+  }
+}
+.active {
+  color: $c-primary;
+  position: relative;
+  h2 {
+    font-weight: 500 !important;
+  }
+  &::after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: $c-primary;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: left center;
+    animation: borderAppear 300ms ease-in-out;
+  }
+}
+
+@keyframes borderAppear {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}

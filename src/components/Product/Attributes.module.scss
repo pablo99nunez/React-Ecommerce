@@ -1,0 +1,33 @@
+@import "../../styles/variables.scss";
+
+.attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  h3 {
+    font-family: $f-secondary;
+    text-transform: uppercase;
+  }
+  .items {
+    display: flex;
+    gap: 1rem;
+    .item {
+      cursor: pointer;
+      flex: 1;
+      display: grid;
+      color: currentColor;
+      place-content: center;
+      transition: all 0.3s ease;
+      border: 1px solid currentColor;
+      padding: 1rem 1.2rem;
+    }
+
+    .selected {
+      background-color: $c-white;
+      color: $c-black;
+    }
+    .selectedColor {
+      outline: 1px solid $c-black;
+    }
+  }
+}

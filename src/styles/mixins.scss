@@ -1,0 +1,10 @@
+@import "./variables.scss";
+
+@mixin dark {
+  color: $c-white;
+  background-color: $c-black;
+}
+@mixin light {
+  color: $c-black;
+  background-color: $c-white;
+}

@@ -1,0 +1,33 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  font-family: $f-primary;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  -moz-osx-font-smoothing: grayscale;
+}
+#root {
+  color: currentColor;
+  background-color: inherit;
+}
+.dark {
+  @include dark;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: $f-primary;
+}
+a {
+  color: currentColor;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

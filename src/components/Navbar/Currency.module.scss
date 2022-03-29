@@ -1,0 +1,39 @@
+@import "../../styles/variables.scss";
+.currency {
+  display: flex;
+  align-items: center;
+  position: relative;
+  .currency__button {
+    display: flex;
+    cursor: pointer;
+    gap: 0.5rem;
+    align-items: center;
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 500;
+    }
+    img {
+      width: 1rem;
+      transition: transform 0.3s ease;
+    }
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: -1rem;
+    width: max-content;
+    top: 100%;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    background-color: $c-white;
+    .options__item {
+      font-size: 1.35rem;
+      padding: 1.3rem 20px;
+      font-weight: 500;
+      cursor: pointer;
+      &:hover {
+        background-color: $c-greyLow;
+      }
+    }
+  }
+}

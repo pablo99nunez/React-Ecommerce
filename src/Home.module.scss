@@ -1,0 +1,12 @@
+@import "./styles/variables.scss";
+.home {
+  width: 90vw;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  & .dark {
+    background-color: $c-black;
+    color: $c-white;
+  }
+}
