@@ -16,16 +16,17 @@ export default class Attributes extends Component {
       this.props.onSelect(attributeIndex, valueIndex);
     };
   }
-  componentDidMount() {
-    console.log(this.props.selected);
-  }
 
   render() {
     return (
       <div className={style.attributes}>
         {this.props.attributes?.map((attribute, index) => {
           return (
-            <div className={style.attribute} key={"att" + index}>
+            <div
+              className={style.attribute}
+              key={"att" + index}
+              style={{ fontSize: this.props.fontSize || "1rem" }}
+            >
               {this.props.withTitle && <h3>{attribute.name}</h3>}
               <div className={style.items}>
                 {attribute.type === "swatch"

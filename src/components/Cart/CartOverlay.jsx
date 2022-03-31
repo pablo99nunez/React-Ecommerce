@@ -53,7 +53,11 @@ export class CartOverlay extends Component {
           alt=""
         />
         {this.props.cart.length ? (
-          <span className={style.number}>{this.props.cart.length}</span>
+          <span className={style.number}>
+            {this.props.cart.reduce((acc, item) => {
+              return acc + item.quantity;
+            }, 0)}
+          </span>
         ) : null}
         {this.state.isOpen && (
           <>
@@ -84,6 +88,7 @@ export class CartOverlay extends Component {
                       </h1>
                       <Attributes
                         attributes={product.product.attributes}
+                        fontSize=".8rem"
                         onSelect={(attributeIndex, valueIndex) => {
                           this.props.changeAttributes({
                             id: product.product.id,
@@ -100,6 +105,7 @@ export class CartOverlay extends Component {
                             (item, i) => item.value === e.active
                           );
                         })}
+                        withTitle
                       ></Attributes>
                     </div>
                     <div className={style.action}>

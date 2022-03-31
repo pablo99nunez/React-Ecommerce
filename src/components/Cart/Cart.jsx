@@ -12,6 +12,7 @@ import style from "./Cart.module.scss";
 import plus from "./assets/plus.svg";
 import minus from "./assets/minus.svg";
 import Attributes from "../Product/Attributes";
+import Carrousel from "../Product/Carrousel";
 
 class Cart extends Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class Cart extends Component {
                         product.product.attributes[attributeIndex].items[
                           valueIndex
                         ].value,
-                      index: i,
+                      index: attributeIndex,
                       attributes: product.attributes,
                     });
                   }}
@@ -105,9 +106,7 @@ class Cart extends Component {
                     alt="Minus"
                   ></img>
                 </div>
-                <div>
-                  <img src={product.product.gallery[0]} alt="" />
-                </div>
+                <Carrousel gallery={product.product.gallery}></Carrousel>
               </div>
             </div>
           ))
@@ -128,7 +127,15 @@ class Cart extends Component {
                 {this.state.total.toFixed(2)}
               </h1>
             </div>
-            <button>CHECK OUT</button>
+            <div className={style.buttons}>
+              <button
+                className={style.button}
+                onClick={() => this.props.clearCart()}
+              >
+                CLEAR
+              </button>
+              <button className={style.button}>CHECK OUT</button>
+            </div>
           </>
         ) : null}
       </div>

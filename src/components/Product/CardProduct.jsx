@@ -40,7 +40,14 @@ class CardProduct extends Component {
             className={style.hover}
             onClick={() => {
               this.props.addToCart({
-                product: { name, prices, brand, gallery, attributes },
+                product: {
+                  name,
+                  prices,
+                  brand,
+                  gallery,
+                  attributes,
+                  id: this.props.id,
+                },
               });
             }}
           >
@@ -48,13 +55,16 @@ class CardProduct extends Component {
           </div>
         )}
         <Link to={"/" + this.props.id} className={style.info}>
+          <h5>{brand}</h5>
           <h4>{name}</h4>
           {prices
             .filter((price) => {
               return price.currency.symbol === this.props.currency.symbol;
             })
-            .map((price) => (
-              <h3>{`${this.props.currency.symbol} ${price.amount}`}</h3>
+            .map((price, i) => (
+              <h3
+                key={`${name}-price-${i}`}
+              >{`${this.props.currency.symbol} ${price.amount}`}</h3>
             ))}
         </Link>
       </div>

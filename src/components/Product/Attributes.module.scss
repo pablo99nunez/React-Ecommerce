@@ -28,6 +28,7 @@
     }
     .selectedColor {
       outline: 1px solid $c-black;
+      transform: scale(1.1);
     }
   }
 }

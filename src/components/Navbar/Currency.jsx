@@ -25,11 +25,7 @@ class Currency extends Component {
         >
           <h1>{this.props.currency.symbol}</h1>
           <img
-            style={{
-              transform: `${
-                this.state.isOpen ? "rotateZ(180deg)" : "rotateZ(0)"
-              }`,
-            }}
+            className={`${this.state.isOpen ? style.open : ""}`}
             src={arrow}
             alt="expand"
           />
@@ -39,6 +35,7 @@ class Currency extends Component {
             {this.props.currencies?.map((currency) => (
               <h2
                 className={style.options__item}
+                key={currency.symbol}
                 onClick={() => {
                   this.props.setCurrency(currency);
                   this.setState({ ...this.state, isOpen: false });

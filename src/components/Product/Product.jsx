@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import { client } from "../..";
-import { GET_PRODUCT } from "../../queries/products";
 import style from "./Product.module.scss";
 import { addToCart } from "../../features/CartSlice";
 import { connect } from "react-redux";
 import Attributes from "./Attributes";
+import { getProduct } from "../../features/PLP/PLPSlice";
+import { sanitize } from "dompurify";
 
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: {},
       loading: true,
       picture: "",
       attributes: [
@@ -22,32 +21,32 @@ class Product extends Component {
     };
   }
   componentDidMount = () => {
-    client
-      .query({
-        query: GET_PRODUCT,
-        variables: { id: this.props.match.params.id },
-      })
-      .then((res) => {
-        this.setState({
-          product: res.data.product,
-          loading: false,
-          picture: res.data.product.gallery[0],
-          attributes: res.data.product.attributes.map((attribute) => {
-            return {
-              active: attribute.items[0].value,
-              name: attribute.name,
-            };
-          }),
-        });
-      });
+    this.props.getProduct(this.props.match.params.id);
   };
+  componentDidUpdate() {
+    if (
+      this.props.loading === false &&
+      this.props.product.name &&
+      this.state.loading
+    ) {
+      this.setState({
+        picture: this.props.product.gallery[0],
+        loading: false,
+        attributes: this.props.product.attributes.map((attribute) => ({
+          active: attribute.items[0].value,
+          name: attribute.name,
+        })),
+      });
+    }
+  }
+
   render() {
     return this.state.loading ? (
       <div>loading</div>
     ) : (
       <div className={style.product}>
         <div className={style.carrousel}>
-          {this.state.product.gallery.map((image, index) => (
+          {this.props.product.gallery.map((image, index) => (
             <img
               onClick={() => this.setState({ ...this.state, picture: image })}
               className={`${this.state.picture === image ? style.active : ""}`}
@@ -57,21 +56,25 @@ class Product extends Component {
             />
           ))}
         </div>
-        <div className={style.mainPicture}>
+        <div
+          className={`${style.mainPicture} ${
+            !this.props.product.inStock && style.offStock
+          }`}
+        >
           <img src={this.state.picture} alt="" />
         </div>
         <div className={style.info}>
           <div>
-            <h1>{this.state.product.brand}</h1>
-            <h1 style={{ fontWeight: 400 }}>{this.state.product.name}</h1>
+            <h1>{this.props.product.brand}</h1>
+            <h1 className={style.name}>{this.props.product.name}</h1>
           </div>
 
           <Attributes
-            attributes={this.state.product.attributes}
+            attributes={this.props.product.attributes}
             onSelect={(attributeIndex, valueIndex) =>
               this.setState({
                 ...this.state,
-                attributes: this.state.product.attributes.map(
+                attributes: this.props.product.attributes.map(
                   (attribute, index) => {
                     if (index === attributeIndex) {
                       return {
@@ -89,25 +92,24 @@ class Product extends Component {
           <div>
             <h2>PRICE:</h2>
             <h2 className={style.price}>
-              {this.state.product.prices
+              {this.props.product.prices
                 .filter((price) => {
-                  console.log(price);
                   return price.currency.symbol === this.props.currency.symbol;
                 })
-                .map((price) => (
-                  <h3>{`${this.props.currency.symbol} ${price.amount}`}</h3>
-                ))}
+                .map(
+                  (price) => `${this.props.currency.symbol} ${price.amount}`
+                )}
             </h2>
           </div>
           <button
             className={`${
-              !this.state.product.inStock ? style.disable : style.button
+              !this.props.product.inStock ? style.disable : style.button
             }`}
-            disabled={!this.state.product.inStock}
-            title={!this.state.product.inStock ? "Out of stock" : ""}
+            disabled={!this.props.product.inStock}
+            title={!this.props.product.inStock ? "Out of stock" : ""}
             onClick={() => {
               this.props.addToCart({
-                product: this.state.product,
+                product: this.props.product,
                 attributes: this.state.attributes,
               });
             }}
@@ -115,7 +117,10 @@ class Product extends Component {
             Add to cart
           </button>
           <div
-            dangerouslySetInnerHTML={{ __html: this.state.product.description }}
+            className={style.description}
+            dangerouslySetInnerHTML={{
+              __html: sanitize(this.props.product.description),
+            }}
           ></div>
         </div>
       </div>
@@ -126,12 +131,15 @@ class Product extends Component {
 function mapStateToProps(state) {
   return {
     currency: state.Currency.currency,
+    product: state.PLP.product,
+    loading: state.PLP.loading,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     addToCart: (product) => dispatch(addToCart(product)),
+    getProduct: (id) => dispatch(getProduct(id)),
   };
 }
 

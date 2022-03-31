@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { client } from "../..";
-import { GET_PRODUCTS } from "../../queries/products";
+import { GET_PRODUCT, GET_PRODUCTS } from "../../queries/products";
 
 export const fetchProducts = createAsyncThunk("PLP/fetch", async (category) => {
   let results = [];
@@ -12,10 +12,21 @@ export const fetchProducts = createAsyncThunk("PLP/fetch", async (category) => {
   return { results, category };
 });
 
+export const getProduct = createAsyncThunk("PLP/getProduct", async (id) => {
+  let product = {};
+  await client
+    .query({ query: GET_PRODUCT, variables: { id } })
+    .then(({ data }) => {
+      product = data.product;
+    });
+  return product;
+});
+
 export const PLPSlice = createSlice({
   name: "PLP",
   initialState: {
     products: [],
+    product: {},
     loading: true,
     category: "",
   },
@@ -37,6 +48,16 @@ export const PLPSlice = createSlice({
     },
     [fetchProducts.pending]: (state, action) => {
       state.loading = true;
+    },
+    [getProduct.fulfilled]: (state, action) => {
+      state.product = action.payload;
+      state.loading = false;
+    },
+    [getProduct.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getProduct.rejected]: (state, action) => {
+      console.log(action);
     },
   },
 });

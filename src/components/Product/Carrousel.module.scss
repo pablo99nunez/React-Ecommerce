@@ -1,0 +1,34 @@
+@import "../../styles/variables.scss";
+.carrousel {
+  position: relative;
+  img {
+    width: 100%;
+    height: auto;
+  }
+  span {
+    position: absolute;
+    top: calc(50% - 1rem);
+    cursor: pointer;
+    opacity: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    height: 2rem;
+    color: $c-white;
+    text-shadow: 2px 2px 5px black;
+    animation: fadeIn 0.3s ease forwards;
+    &:first-child {
+      left: 0.5rem;
+    }
+    &:last-child {
+      right: 0.5rem;
+    }
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
