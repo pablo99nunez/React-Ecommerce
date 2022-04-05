@@ -19,7 +19,6 @@ class Navbar extends Component {
   }
 
   componentDidMount = async () => {
-    this.props.setProducts("all");
     client.query({ query: GET_CATEGORIES }).then((res) => {
       this.setState({ categories: res.data.categories.map((e) => e.name) });
     });

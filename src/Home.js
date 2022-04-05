@@ -4,8 +4,13 @@ import Category from "./components/Product/Category.jsx";
 import style from "./Home.module.scss";
 
 import { connect } from "react-redux";
+import { fetchProducts } from "./features/PLP/PLPSlice.js";
 
 class Home extends Component {
+  componentDidMount() {
+    console.log(this.props);
+    this.props.setProducts("all");
+  }
   render() {
     return (
       <div className={`${style.home}`}>
@@ -24,4 +29,9 @@ function mapStateToProps(state) {
     loading: state.PLP.loading,
   };
 }
-export default connect(mapStateToProps)(Home);
+function mapDispatchToProps(dispatch) {
+  return {
+    setProducts: (category) => dispatch(fetchProducts(category)),
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
