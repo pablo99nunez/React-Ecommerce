@@ -12,13 +12,14 @@
     display: flex;
     gap: 1rem;
     .item {
+      --border-color: #1d1f22;
       cursor: pointer;
       flex: 1;
       display: grid;
       color: currentColor;
       place-content: center;
       transition: all 0.3s ease;
-      border: 1px solid currentColor;
+      border: 1px solid var(--border-color);
       padding: 1rem 1.2rem;
     }
 
@@ -27,8 +28,8 @@
       color: $c-white;
     }
     .selectedColor {
-      outline: 1px solid $c-black;
-      transform: scale(1.1);
+      box-shadow: 0 0 0 3px var(--border-color);
+      transform: scale(1.05);
     }
   }
 }

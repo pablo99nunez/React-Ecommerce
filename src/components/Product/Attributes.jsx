@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import style from "./Attributes.module.scss";
+import tc from "tinycolor2";
 
 export default class Attributes extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       selected:
         this.props.selected ||
@@ -38,7 +40,13 @@ export default class Attributes extends Component {
                               ? style.selectedColor
                               : ""
                           }`}
-                          style={{ backgroundColor: item.value }}
+                          style={{
+                            backgroundColor: item.value,
+                            "--border-color":
+                              tc(item.value).getBrightness() > 30
+                                ? "#1d1f22"
+                                : "#5ece7b",
+                          }}
                           onClick={(e) => this.onSelect(index, i, e.target)}
                           key={attribute.type + item.value}
                         ></div>
